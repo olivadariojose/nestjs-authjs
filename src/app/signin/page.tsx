@@ -1,46 +1,24 @@
-"use client"
+// app/signin/page.tsx
+import { redirect } from "next/navigation"
+import { auth } from "../../../libraries/authjs/auth"
+import SignInForm from "./SignInForm"
+type Props = {
+  searchParams: Record<string, string | string[] | undefined>
+}
 
-import { signIn } from "next-auth/react"
-import { useRouter, useSearchParams } from "next/navigation"
-import { useState } from "react"
+const SignInPage = async ({ searchParams }: Props) => {
+  const session = await auth()
+  const callbackUrl = typeof searchParams?.callbackUrl === "string" ? searchParams.callbackUrl : "/dashboard"
 
-export default function SignInPage() {
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const callbackUrl = searchParams.get("callbackUrl") || "/dashboard"
-  const [error, setError] = useState("")
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const formData = new FormData(e.currentTarget)
-
-    const res = await signIn("credentials", {
-      email: formData.get("email"),
-      password: formData.get("password"),
-      redirect: false
-    })
-
-    if (res?.ok) {
-      router.push(callbackUrl)
-    } else {
-      setError("Credenciales inválidas")
-    }
+  if (session) {
+    redirect(callbackUrl)
   }
 
   return (
     <div className="flex flex-col gap-2">
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="email">
-          Email
-          <input name="email" id="email" defaultValue="dariooliva33@gmail.com" />
-        </label>
-        <label htmlFor="password">
-          Password
-          <input name="password" id="password" type="password" defaultValue=".NestjsNestjs2." />
-        </label>
-        <input type="submit" value="Sign In" />
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-      </form>
+      <SignInForm callbackUrl={callbackUrl} />
     </div>
   )
 }
+
+export default SignInPage
