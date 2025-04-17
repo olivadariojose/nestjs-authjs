@@ -1,4 +1,4 @@
-import { signIn } from "../libraries/authjs/auth"
+import { signIn } from "../libraries/authjs/auth-original"
 
  
 export function SignIn() {

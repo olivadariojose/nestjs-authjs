@@ -1,14 +1,15 @@
 // app/signin/page.tsx
 import { redirect } from "next/navigation"
-import { auth } from "../../../libraries/authjs/auth"
 import SignInForm from "./SignInForm"
+import { auth } from "../../../auth"
 type Props = {
   searchParams: Record<string, string | string[] | undefined>
 }
 
 const SignInPage = async ({ searchParams }: Props) => {
   const session = await auth()
-  const callbackUrl = typeof searchParams?.callbackUrl === "string" ? searchParams.callbackUrl : "/dashboard"
+  // const callbackUrl = typeof searchParams?.callbackUrl === "string" ? searchParams.callbackUrl : "/dashboard"
+  const callbackUrl = "/dashboard"
 
   if (session) {
     redirect(callbackUrl)

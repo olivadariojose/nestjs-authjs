@@ -150,7 +150,7 @@ const secret = process.env.NEXTAUTH_SECRET
 
 export async function middleware(request: NextRequest) {
 
-    console.log('se ejecuto el middeware')
+  console.log('------------------------------------------------------------------se ejecuto el middeware')
   const token = await getToken({ req: request, secret })
 
   const isProtected = ["/dashboard", "/admin"].some((path) =>

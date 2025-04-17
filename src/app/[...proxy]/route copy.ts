@@ -1,6 +1,6 @@
 // app/[...proxy]/route.tsx
 import { NextRequest } from "next/server";
-import { auth } from "../../../libraries/authjs/auth";
+import { auth } from "../../../libraries/authjs/auth-original";
 
 function stripContentEncoding(result: Response) {
   const responseHeaders = new Headers(result.headers);

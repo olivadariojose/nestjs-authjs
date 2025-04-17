@@ -150,22 +150,22 @@ const secret = process.env.NEXTAUTH_SECRET
 
 export async function middleware(request: NextRequest) {
 
-    console.log('se ejecuto el middeware')
-  const token = await getToken({ req: request, secret })
+  console.log('------------------------------------------------------------------se ejecuto el middeware')
+  // const token = await getToken({ req: request, secret })
 
-  const isProtected = ["/dashboard", "/admin"].some((path) =>
-    request.nextUrl.pathname.startsWith(path)
-  )
+  // const isProtected = ["/dashboard", "/admin"].some((path) =>
+  //   request.nextUrl.pathname.startsWith(path)
+  // )
 
-  if (isProtected && !token) {
-    const signInUrl = new URL("/signin", request.url)
-    signInUrl.searchParams.set("callbackUrl", request.nextUrl.pathname)
-    return NextResponse.redirect(signInUrl)
-  }
+  // if (isProtected && !token) {
+  //   const signInUrl = new URL("/signin", request.url)
+  //   signInUrl.searchParams.set("callbackUrl", request.nextUrl.pathname)
+  //   return NextResponse.redirect(signInUrl)
+  // }
 
-  return NextResponse.next()
+  // return NextResponse.next()
 }
 
-export const config = {
-  matcher: ["/dashboard", "/admin/:path*"]
-}
+// export const config = {
+//   matcher: ["/dashboard", "/admin/:path*"]
+// }

@@ -1,7 +1,7 @@
 import React from 'react'
-import { auth, signOut } from '../../../libraries/authjs/auth'
 import { redirect } from 'next/navigation'
 import { SignOutButton } from './SignOutButton'
+import { auth } from '../../../auth'
 
 const DashboardPage = async () => {
 
