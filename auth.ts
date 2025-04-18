@@ -19,14 +19,11 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
 
           const data = res.data
 
-
-          console.log('autorize: ',data)
-
           if (data?.user && data?.backendTokens?.accessToken) {
             return {
               ...data.user,
               accessToken: data.backendTokens.accessToken,
-              refreshToken: data.backendTokens.refrehsToken,
+              refreshToken: data.backendTokens.refreshToken,
               expiresIn: data.backendTokens.expiresIn
             }
           }
@@ -100,7 +97,6 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           }
         )
 
-        console.log('callbacks= response :', response)
   
         const data = response.data
   

@@ -9,6 +9,8 @@ const DashboardPage = async () => {
   const session = await auth()
   // if (!session) return <div>Not authenticated</div>
 
+  console.log('La sesion en DASHBOARD: ', session)
+
   if (!session) {
     redirect('/signin')
   }
