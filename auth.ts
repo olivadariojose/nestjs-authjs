@@ -40,47 +40,33 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
   session: {
     strategy: "jwt"
   },
-  // callbacks: {
-  //   async jwt({ token, user }) {
-  //     if (user) {
-  //       token.accessToken = user.accessToken
-  //       token.refreshToken = user.refreshToken
-  //       token.expiresIn = user.expiresIn
-  //       token.user = user
-
-  //       token.role = user.rolId?.nameRole || 'user'
-  //     }
-
-  //     // Opcional: refrescar token si está expirado
-  //     return token
-  //   },
-  //   async session({ session, token }) {
-  //     session.accessToken = token.accessToken as string
-  //     session.user = token.user
-  //     session.user.role = token.role
-  //     return session
-  //   },
-  //   authorized: async({auth})=>{
-  //     return !!auth
-  //   }
-  // },
   callbacks: {
     async jwt({ token, user }) {
       // Primera vez que se crea el token (inicio de sesión)
+      // if (user) {
+      //   token.accessToken = user.accessToken
+      //   token.refreshToken = user.refreshToken
+      //   token.expiresIn = user.expiresIn
+      //   token.user = user
+      //   token.role = user.rolId?.nameRole || 'user'
+      //   return token
+      // }
+
       if (user) {
-        token.accessToken = user.accessToken
-        token.refreshToken = user.refreshToken
-        token.expiresIn = user.expiresIn
-        token.user = user
-        token.role = user.rolId?.nameRole || 'user'
-        return token
+        token.accessToken = user.accessToken;
+        token.refreshToken = user.refreshToken;
+        token.expiresIn = user.expiresIn;
+        token.user = user;
+        token.role = user.rolId?.nameRole || "user";
+        token.mustBeChangePassword = user.mustBeChangePassword; // <-- Agregar esto
+        return token;
       }
-  
+
       // Si el token aún es válido, regresarlo sin cambios
       if (Date.now() < (token.expiresIn as number || 0)) {
         return token
       }
-  
+
       // Si expiró, intentar renovarlo con refreshToken
       try {
         // const response = await axios.post(`http://localhost:4000/api/v1/auth/refresh`, {
@@ -97,11 +83,11 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           }
         )
 
-  
+
         const data = response.data
-  
+
         if (!data?.accessToken) throw new Error("No se recibió nuevo accessToken")
-  
+
         // Guardar nuevos valores en el token
         token.accessToken = data.accessToken
         token.refreshToken = data.refreshToken ?? token.refreshToken
@@ -112,16 +98,23 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         return token // Puede que redirijas al login después en otro lugar si deseas
       }
     },
-  
+
+    // async session({ session, token }) {
+    //   session.accessToken = token.accessToken as string
+    //   session.user = token.user
+    //   session.user.role = token.role
+    //   return session
+    // },
     async session({ session, token }) {
-      session.accessToken = token.accessToken as string
-      session.user = token.user
-      session.user.role = token.role
-      return session
+      session.accessToken = token.accessToken as string;
+      session.user = token.user;
+      session.user.role = token.role;
+      session.user.mustBeChangePassword = token.mustBeChangePassword; // <-- Agregar esto
+      return session;
     },
-  
+
     authorized: async ({ auth }) => !!auth
-  },  
+  },
   pages: {
     signIn: "/signin" // Opcional: tu página de login personalizada
   },
@@ -135,15 +128,16 @@ declare module "next-auth" {
     user?: any
   }
 
-  interface Rol{
-    nameRole?:string
+  interface Rol {
+    nameRole?: string
   }
 
   interface User {
     accessToken?: string
     refreshToken?: string
     expiresIn?: number
-    rolId?:Rol
+    rolId?: Rol
+    mustBeChangePassword?:boolean
   }
 }
 

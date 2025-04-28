@@ -11,10 +11,15 @@ const SignInPage = async ({ searchParams }: Props) => {
   // const callbackUrl = typeof searchParams?.callbackUrl === "string" ? searchParams.callbackUrl : "/dashboard"
   const callbackUrl = "/dashboard"
 
-  console.log('La sesion en SIGNIN: ', session)
+  // console.log('La sesion en SIGNIN: ', session)
+
 
   if (session) {
-    redirect(callbackUrl)
+    if (session.user?.mustBeChangepassword) {
+      redirect("/changePassword")
+    } else {
+      redirect("/dashboard")
+    }
   }
 
   return (

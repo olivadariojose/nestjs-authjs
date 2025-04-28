@@ -2,7 +2,6 @@
 "use client"
 
 import { signIn } from "next-auth/react"
-// import { signIn } from "../../../auth"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 
@@ -38,7 +37,7 @@ const SignInForm = ({ callbackUrl }: { callbackUrl: string }) => {
         <input name="password" type="password" defaultValue=".NestjsNestjs2." />
       </label>
       <input type="submit" value="Sign In" />
-      {/* {error && <p style={{ color: "red" }}>{error}</p>} */}
+      {error && <p style={{ color: "red" }}>{error}</p>}
     </form>
   )
 }

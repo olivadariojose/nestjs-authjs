@@ -9,12 +9,16 @@ const DashboardPage = async () => {
   const session = await auth()
   // if (!session) return <div>Not authenticated</div>
 
-  console.log('La sesion en DASHBOARD: ', session)
+  // console.log('La sesion en DASHBOARD: ', session)
 
   if (!session) {
     redirect('/signin')
   }
 
+
+  if (session.user?.mustBeChangepassword) {
+    redirect("/changePassword")
+  }
 
   return (
     <div>
@@ -33,7 +37,7 @@ const DashboardPage = async () => {
       >
         <button type="submit">Sign Out</button>
       </form> */}
-      <SignOutButton/>
+      <SignOutButton />
     </div>
   )
 }
