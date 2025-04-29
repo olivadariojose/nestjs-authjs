@@ -30,7 +30,7 @@ const SignInForm = ({ callbackUrl }: { callbackUrl: string }) => {
     <form onSubmit={handleSubmit} className="flex flex-col gap-2">
       <label>
         Email
-        <input name="email" type="email" defaultValue="dariooliva33@gmail.com" />
+        <input name="email" type="email" defaultValue="olivadariojose@gmail.com" />
       </label>
       <label>
         Password

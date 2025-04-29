@@ -5,8 +5,8 @@ import { auth } from "../../auth";
 
 export default async function Home() {
 
-  // const session = await auth()
-  // console.log('La sesion en HOME: ', session)
+  const session = await auth()
+  console.log('La sesion en HOME: ', session)
 
   return (
     <div className={styles.page}>

@@ -11,6 +11,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
+        console.log('authroize')
+        console.log('authroize-credentials: ', credentials)
         try {
           const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`, {
             emailUser: credentials?.email,
@@ -42,6 +44,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
   },
   callbacks: {
     async jwt({ token, user }) {
+      console.log('callbacks-jwt-token: ', token)
+      console.log('callbacks-jwt-user: ', user)
       // Primera vez que se crea el token (inicio de sesión)
       // if (user) {
       //   token.accessToken = user.accessToken
@@ -59,6 +63,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         token.user = user;
         token.role = user.rolId?.nameRole || "user";
         token.mustBeChangePassword = user.mustBeChangePassword; // <-- Agregar esto
+        console.log('callbacks-jwt-if(user) return token: ', token)
         return token;
       }
 
@@ -92,6 +97,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         token.accessToken = data.accessToken
         token.refreshToken = data.refreshToken ?? token.refreshToken
         token.expiresIn = data.expiresIn
+        console.log('callbacks-jwt- data=response.data- return token: ', token)
         return token
       } catch (error) {
         console.error("Error al refrescar token:", error)
@@ -106,10 +112,13 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     //   return session
     // },
     async session({ session, token }) {
+      console.log('callbacks-session-session: ', session)
+      console.log('callbacks-session-token: ', token)
       session.accessToken = token.accessToken as string;
       session.user = token.user;
       session.user.role = token.role;
       session.user.mustBeChangePassword = token.mustBeChangePassword; // <-- Agregar esto
+      console.log('callbacks-session-session- return session: ', session)
       return session;
     },
 
@@ -118,7 +127,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
   pages: {
     signIn: "/signin" // Opcional: tu página de login personalizada
   },
-  debug: process.env.NODE_ENV === "development"
+  // debug: process.env.NODE_ENV === "development"
 })
 
 declare module "next-auth" {
@@ -137,7 +146,7 @@ declare module "next-auth" {
     refreshToken?: string
     expiresIn?: number
     rolId?: Rol
-    mustBeChangePassword?:boolean
+    mustBeChangePassword?: boolean
   }
 }
 
