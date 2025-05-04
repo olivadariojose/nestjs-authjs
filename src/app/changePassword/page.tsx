@@ -1,21 +1,22 @@
-
 import { redirect } from 'next/navigation'
 import React from 'react'
 import { auth } from '../../../auth'
-import ChangePasswordForm from './ChangePasswordForm'
+import { ChangePasswordForm } from './components/ChangePasswordForm'
+import Grid from '@mui/material/Grid';
 
-const ChangePassword = async () => {
+const ChangePasswordPage = async () => {
   const session = await auth()
   if (!session || !session.user?.mustBeChangepassword) {
     redirect("/dashboard")
   }
-
-  console.log("session", session)
-
+  console.log('ChangePasswordPage')
 
   return (
-    <ChangePasswordForm userId={session?.user?.id} />
+    <Grid container height={'100vh'} justifyContent={'center'} alignItems={'center'}  >
+      <ChangePasswordForm userId={session?.user?.id} />
+
+    </Grid>
   )
 }
 
-export default ChangePassword
+export default ChangePasswordPage

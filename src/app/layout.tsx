@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { SessionProvider } from "next-auth/react";
-import { auth } from "../../auth";
-import { redirect } from "next/navigation"
+import { SessionProviderComponent } from "@/libraries/authjs/SessionProviderComponent";
+import { ProviderMui } from "@/libraries/mui/ProviderMui";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,23 +24,18 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await auth()
 
-  // if (!session) {
-  //   redirect("/signin")
-  // }
 
-  // if (session.user?.mustBeChangepassword) {
-  //   redirect("/changePassword")
-  // }
 
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <SessionProvider session={session}>
-          {children}
-        </SessionProvider>
-      </body>
+      <SessionProviderComponent>
+        <body className={`${geistSans.variable} ${geistMono.variable}`}>
+          <ProviderMui>
+            {children}
+          </ProviderMui>
+        </body>
+      </SessionProviderComponent>
     </html>
   );
 }

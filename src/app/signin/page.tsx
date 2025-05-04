@@ -1,20 +1,19 @@
 // app/signin/page.tsx
 import { redirect } from "next/navigation"
-import SignInForm from "./SignInForm"
 import { auth } from "../../../auth"
-type Props = {
-  searchParams: Record<string, string | string[] | undefined>
-}
+import SignInForm from "./components/SignInForm"
+import Grid from '@mui/material/Grid';
 
-const SignInPage = async ({ searchParams }: Props) => {
+const SignInPage = async () => {
+
   const session = await auth()
-  // const callbackUrl = typeof searchParams?.callbackUrl === "string" ? searchParams.callbackUrl : "/dashboard"
-  const callbackUrl = "/dashboard"
 
-  // console.log('La sesion en SIGNIN: ', session)
-
-
+  // const callbackUrl = "/dashboard"
   if (session) {
+    // if (session.user?.mustBeChangepassword) {
+
+    
+
     if (session.user?.mustBeChangepassword) {
       redirect("/changePassword")
     } else {
@@ -23,9 +22,10 @@ const SignInPage = async ({ searchParams }: Props) => {
   }
 
   return (
-    <div className="flex flex-col gap-2">
-      <SignInForm callbackUrl={callbackUrl} />
-    </div>
+    <Grid container height={'100vh'} justifyContent={'center'} alignItems={'center'}  >
+      {/* <SignInForm callbackUrl={callbackUrl} /> */}
+      <SignInForm />
+    </Grid>
   )
 }
 
