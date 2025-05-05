@@ -4,30 +4,31 @@ import { FormContent } from "./FormContent"
 import { redirect } from "next/navigation"
 import { FormProviderComponent } from "@/libraries/formik/FormProviderComponent"
 import { signInValidationSchema } from "../yup/signin.validationSchema"
+import { useRouter } from "next/navigation"
 
 const initialValues = {
   email: 'olivadariojose@gmail.com',
-  password: 'ZJqdcnjw',
+  password: '2MR86BWm',
 }
 
 
 const SignInForm = () => {
-  // const router = useRouter()
+  const router = useRouter()
 
-  console.log('SignInForm')
 
   const handleSubmit = async (values: typeof initialValues) => {
 
 
     const res = await signIn("credentials", {
+      redirect: false,
       email: values.email,
       password: values.password,
-      redirect: false
     })
 
     if (res?.ok) {
-      redirect("/dashboard")
-      // router.push(callbackUrl)
+      console.log("Sign in successful", res)
+      // redirect("/dashboard")
+      router.push("/dashboard")
     } else {
       console.log("Error signing in", res?.error)
     }

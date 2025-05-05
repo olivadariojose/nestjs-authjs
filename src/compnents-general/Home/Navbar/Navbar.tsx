@@ -7,6 +7,8 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { ButtonLogin } from './Components/Buttons/ButtonLogin';
 
+
+
 export default function Navbar() {
     return (
         <Box sx={{ flexGrow: 1 }}>

@@ -3,8 +3,6 @@ import Navbar from "@/compnents-general/Home/Navbar/Navbar";
 
 export default async function Home() {
 
-
-
   return (
     <div className={styles.page}>
         <Navbar/>

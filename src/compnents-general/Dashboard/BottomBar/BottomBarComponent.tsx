@@ -1,8 +1,10 @@
 import React from 'react'
+import { LinkRoles } from './LinkRoles'
 
 export const BottomBarComponent = () => {
-    console.log("BottomBarComponent")
   return (
-    <div>BottomBarComponent</div>
+    <div>
+      <LinkRoles/>
+    </div>
   )
 }

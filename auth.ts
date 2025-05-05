@@ -11,7 +11,6 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials,) {
-
         let user = null
         try {
           const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`, {
@@ -20,11 +19,10 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           })
 
           user = res.data
-
+          // console.log("Usuario desde el backend", user)
           if (!user) {
             throw new Error('Invalid credentials')
           }
-
           return user
 
         } catch (error) {
@@ -36,6 +34,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
   ],
   callbacks: {
     async session({ session, token }) {
+      // console.log("Session desde NextAuth", session)
       if (token) {
         session.user.id = token.id as string;
         session.user.name = token.name as string;
@@ -47,9 +46,11 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         session.user.expiresIn = token.expiresIn;
         session.user.mustBeChangepassword = token.mustBeChangepassword;
       }
+      // console.log("Session desde NextAuth", session)
       return session;
     },
     async jwt({ token, user }) {
+      // console.log("JWT desde NextAuth", token)
       if (user) {
         token.id = user.id;
         token.name = user.name;
@@ -63,6 +64,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       }
 
       if (Date.now() < (token.expiresIn as number || 0)) {
+        
         return token
       }
 
@@ -86,11 +88,12 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         return token;
 
       } catch (error) {
-        console.error("Error al refrescar token:", error)
+        // console.error("Error al refrescar token:", error)
         return token // Puede que redirijas al login después en otro lugar si deseas
       }
     },
     async authorized({ auth }) {
+      // console.log("Autorizado desde NextAuth", auth)
       // Solo usuarios autenticados pueden continuar
       return !!auth
     },

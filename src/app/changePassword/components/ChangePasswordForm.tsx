@@ -7,8 +7,8 @@ import { signOut } from 'next-auth/react'
 import { endpoints } from '@/utils/endpoints'
 
 const initialValues = {
-    newPassword: '',
-    confirmNewPassword: ''
+    newPassword: '.NestjsNestjs2.',
+    confirmNewPassword: '.NestjsNestjs2.'
 }
 
 interface Props {
